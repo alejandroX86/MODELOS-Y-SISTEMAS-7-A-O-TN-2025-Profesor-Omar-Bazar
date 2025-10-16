@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examen Interactivo - Cajero Automático</title>
+    <style>
+        :root {
+            --primary-color: #1a5276;
+            --secondary-color: #3498db;
+            --accent-color: #e74c3c;
+            --success-color: #27ae60;
+            --light-blue: #e6f2ff;
+            --medium-blue: #cce0ff;
+            --dark-color: #2c3e50;
+            --text-color: #333;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #e6f2ff 0%, #cce0ff 100%);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .school-header {
+            background: linear-gradient(135deg, #1a5276 0%, #2c3e50 100%);
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+            border-radius: 12px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .school-header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+        
+        .school-header h2 {
+            font-size: 1.3rem;
+            font-weight: normal;
+            margin-bottom: 5px;
+        }
+        
+        .student-info {
+            background-color: white;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .student-info label {
+            font-weight: bold;
+            color: var(--primary-color);
+            white-space: nowrap;
+        }
+        
+        .student-info input {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        header h1 {
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+        
+        .timer-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 10px 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .progress-container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .progress-bar {
+            flex-grow: 1;
+            height: 20px;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            margin: 0 15px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--success-color) 0%, #2ecc71 100%);
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 10px;
+        }
+        
+        .score-display {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .exercise-container {
+            background-color: white;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 20px;
+            border-left: 5px solid var(--secondary-color);
+        }
+        
+        .exercise-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--light-blue);
+            padding-bottom: 15px;
+        }
+        
+        .exercise-title {
+            font-size: 1.4rem;
+            color: var(--primary-color);
+        }
+        
+        .exercise-points {
+            background: linear-gradient(135deg, var(--secondary-color) 0%, #5dade2 100%);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 1rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .exercise-instructions {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: var(--light-blue);
+            border-radius: 8px;
+            border-left: 4px solid var(--secondary-color);
+            font-size: 1rem;
+            color: var(--dark-color);
+        }
+        
+        .drag-drop-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .drag-items {
+            flex: 1;
+            min-width: 250px;
+            border: 2px solid var(--medium-blue);
+            border-radius: 10px;
+            padding: 15px;
+            background-color: var(--light-blue);
+        }
+        
+        .drag-items h3 {
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 8px;
+        }
+        
+        .drop-zone {
+            flex: 2;
+            min-height: 350px;
+            height: auto;
+            border: 2px dashed var(--secondary-color);
+            border-radius: 10px;
+            padding: 15px;
+            background-color: #f0f8ff;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+        }
+        
+        .drop-zone.highlight {
+            border-color: var(--primary-color);
+            background-color: #e1f0ff;
+            box-shadow: 0 0 10px rgba(52, 152, 219, 0.3);
+        }
+        
+        .drop-zone h3 {
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--secondary-color);
+            padding-bottom: 8px;
+        }
+        
+        .drop-area {
+            flex: 1;
+            min-height: 280px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 10px;
+            overflow-y: auto;
+            background-color: rgba(255, 255, 255, 0.7);
+            border-radius: 8px;
+            transition: min-height 0.3s ease;
+        }
+        
+        .drag-item {
+            background: linear-gradient(135deg, white 0%, #f8f9fa 100%);
+            border: 1px solid var(--medium-blue);
+            border-radius: 8px;
+            padding: 12px 15px;
+            cursor: move;
+            font-size: 0.95rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            user-select: none;
+            width: 100%;
+        }
+        
+        .drag-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-color: var(--secondary-color);
+        }
+        
+        .drag-item.dragging {
+            opacity: 0.6;
+            transform: scale(0.98);
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--secondary-color) 0%, #5dade2 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #2980b9 0%, var(--secondary-color) 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, var(--success-color) 0%, #2ecc71 100%);
+            color: white;
+        }
+        
+        .btn-success:hover {
+            background: linear-gradient(135deg, #219653 0%, var(--success-color) 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        .btn-info {
+            background: linear-gradient(135deg, #17a2b8 0%, #5bc0de 100%);
+            color: white;
+        }
+        
+        .btn-info:hover {
+            background: linear-gradient(135deg, #138496 0%, #17a2b8 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+        
+        .feedback {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            display: none;
+            font-size: 1rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feedback.correct {
+            background: linear-gradient(135deg, #d4edda 0%, #e8f5e9 100%);
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        
+        .feedback.incorrect {
+            background: linear-gradient(135deg, #f8d7da 0%, #ffebee 100%);
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 25px;
+        }
+        
+        .exercise-navigation {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .nav-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #e0e0e0 0%, #f5f5f5 100%);
+            color: var(--dark-color);
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-btn.active {
+            background: linear-gradient(135deg, var(--secondary-color) 0%, #5dade2 100%);
+            color: white;
+            transform: scale(1.1);
+        }
+        
+        .nav-btn.completed {
+            background: linear-gradient(135deg, var(--success-color) 0%, #2ecc71 100%);
+            color: white;
+        }
+        
+        .exercise-content {
+            display: none;
+        }
+        
+        .exercise-content.active {
+            display: block;
+        }
+        
+        .results-container {
+            text-align: center;
+            padding: 30px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            display: none;
+            background: linear-gradient(135deg, white 0%, #f8f9fa 100%);
+        }
+        
+        .final-score {
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            margin: 20px 0;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .score-breakdown {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: left;
+        }
+        
+        .score-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+            font-size: 1rem;
+        }
+        
+        .results-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+        
+        @media (max-width: 768px) {
+            .drag-drop-container {
+                flex-direction: column;
+            }
+            
+            .controls {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+            
+            .drop-zone {
+                min-height: 300px;
+            }
+            
+            .drop-area {
+                min-height: 230px;
+            }
+            
+            .student-info {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .student-info input {
+                width: 100%;
+            }
+            
+            .results-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="school-header">
+            <h1>EEST N°1 MUNIZ</h1>
+            <h2>MODELOS Y SISTEMAS - 7° 4°</h2>
+        </div>
+        
+        <div class="student-info">
+            <label for="student-name">Nombre del Alumno:</label>
+            <input type="text" id="student-name" placeholder="Ingrese su nombre completo">
+        </div>
+        
+        <header>
+            <h1>Examen Interactivo - Cajero Automático Inclusivo</h1>
+            <p>Complete los ejercicios arrastrando los elementos a su posición correcta</p>
+        </header>
+        
+        <div class="timer-container">
+            Tiempo transcurrido: <span id="timer">00:00</span>
+        </div>
+        
+        <div class="progress-container">
+            <div class="score-display">Puntaje: <span id="current-score">0.0</span>/10.0</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            <div>Progreso: <span id="progress-text">0/10</span></div>
+        </div>
+        
+        <div class="exercise-navigation" id="exercise-nav">
+            <!-- Los botones de navegación se generarán dinámicamente -->
+        </div>
+        
+        <!-- Ejercicio 1: Validar Usuario -->
+        <div class="exercise-container">
+            <div class="exercise-header">
+                <h2 class="exercise-title">Ejercicio 1: Validar Usuario</h2>
+                <div class="exercise-points">1 punto</div>
+            </div>
+            
+            <div class="exercise-instructions">
+                <p>Arrastre los pasos del caso de uso "Validar Usuario" en el orden correcto (de arriba hacia abajo).</p>
+            </div>
+            
+            <div class="exercise-content active" id="exercise-1">
+                <div class="drag-drop-container">
+                    <div class="drag-items">
+                        <h3>Pasos disponibles:</h3>
+                        <div class="drag-item" draggable="true" data-value="1">USUARIO: Introduce la Tarjeta en la ranura del Cajero ATM</div>
+                        <div class="drag-item" draggable="true" data-value="2">USUARIO: Se ingresa el "Código" PIN</div>
+                        <div class="drag-item" draggable="true" data-value="3">SISTEMA: Si el PIN es Validado el Cajero Muestra su Menú de Opciones</div>
+                        <div class="drag-item" draggable="true" data-value="4">SISTEMA: Si el PIN no es correcto el cajero Muestra un mensaje de error</div>
+                        <div class="drag-item" draggable="true" data-value="5">SISTEMA: Si el ingreso de Clave agotó los tres intentos el "Cajero traga la Tarjeta"</div>
+                        <div class="drag-item" draggable="true" data-value="6">SISTEMA: Si la Clave PIN es Validad Muestra las opciones disponibles al usuario</div>
+                    </div>
+                    
+                    <div class="drop-zone" id="drop-zone-1">
+                        <h3>Orden correcto (de arriba hacia abajo):</h3>
+                        <div class="drop-area" id="drop-area-1">
+                            <!-- Los elementos se soltarán aquí -->
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" onclick="checkExercise(1)">Verificar Ejercicio</button>
+                
+                <div class="feedback" id="feedback-1"></div>
+            </div>
+        </div>
+        
+        <!-- Ejercicio 2: Estados del Cajero -->
+        <div class="exercise-container">
+            <div class="exercise-header">
+                <h2 class="exercise-title">Ejercicio 2: Estados del Cajero</h2>
+                <div class="exercise-points">1 punto</div>
+            </div>
+            
+            <div class="exercise-instructions">
+                <p>Arrastre los estados del cajero automático en el orden correcto del flujo principal (de arriba hacia abajo).</p>
+            </div>
+            
+            <div class="exercise-content" id="exercise-2">
+                <div class="drag-drop-container">
+                    <div class="drag-items">
+                        <h3>Estados disponibles:</h3>
+                        <div class="drag-item" draggable="true" data-value="1">Esperando Tarjeta</div>
+                        <div class="drag-item" draggable="true" data-value="2">Tarjeta Introducida</div>
+                        <div class="drag-item" draggable="true" data-value="3">Esperando PIN</div>
+                        <div class="drag-item" draggable="true" data-value="4">Validando PIN</div>
+                        <div class="drag-item" draggable="true" data-value="5">Esperando Opción</div>
+                        <div class="drag-item" draggable="true" data-value="6">Operación en Proceso</div>
+                        <div class="drag-item" draggable="true" data-value="7">Operación Exitosa</div>
+                        <div class="drag-item" draggable="true" data-value="8">Expulsando Tarjeta</div>
+                    </div>
+                    
+                    <div class="drop-zone" id="drop-zone-2">
+                        <h3>Flujo de estados (de arriba hacia abajo):</h3>
+                        <div class="drop-area" id="drop-area-2">
+                            <!-- Los elementos se soltarán aquí -->
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" onclick="checkExercise(2)">Verificar Ejercicio</button>
+                
+                <div class="feedback" id="feedback-2"></div>
+            </div>
+        </div>
+        
+        <!-- Ejercicio 3: Extraer Dinero -->
+        <div class="exercise-container">
+            <div class="exercise-header">
+                <h2 class="exercise-title">Ejercicio 3: Extraer Dinero</h2>
+                <div class="exercise-points">1 punto</div>
+            </div>
+            
+            <div class="exercise-instructions">
+                <p>Arrastre los pasos del caso de uso "Extraer Dinero" en el orden correcto (de arriba hacia abajo).</p>
+            </div>
+            
+            <div class="exercise-content" id="exercise-3">
+                <div class="drag-drop-container">
+                    <div class="drag-items">
+                        <h3>Pasos disponibles:</h3>
+                        <div class="drag-item" draggable="true" data-value="1">USUARIO: Selecciona la Opción "Extraer Dinero"</div>
+                        <div class="drag-item" draggable="true" data-value="2">USUARIO: Ingresa el Monto para Extraer</div>
+                        <div class="drag-item" draggable="true" data-value="3">SISTEMA: Verifica si tiene saldo Suficiente</div>
+                        <div class="drag-item" draggable="true" data-value="4">SISTEMA: Confirma en el Cajero Retiro de Fondos</div>
+                        <div class="drag-item" draggable="true" data-value="5">SISTEMA: Dispensa el Dinero</div>
+                        <div class="drag-item" draggable="true" data-value="6">SISTEMA: Entrega el Comprobante (Ticket)</div>
+                        <div class="drag-item" draggable="true" data-value="7">SISTEMA: Devuelve la Tarjeta</div>
+                    </div>
+                    
+                    <div class="drop-zone" id="drop-zone-3">
+                        <h3>Orden correcto (de arriba hacia abajo):</h3>
+                        <div class="drop-area" id="drop-area-3">
+                            <!-- Los elementos se soltarán aquí -->
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" onclick="checkExercise(3)">Verificar Ejercicio</button>
+                
+                <div class="feedback" id="feedback-3"></div>
+            </div>
+        </div>
+        
+        <!-- Ejercicio 4: Ingresar Dinero -->
+        <div class="exercise-container">
+            <div class="exercise-header">
+                <h2 class="exercise-title">Ejercicio 4: Ingresar Dinero</h2>
+                <div class="exercise-points">1 punto</div>
+            </div>
+            
+            <div class="exercise-instructions">
+                <p>Arrastre los pasos del caso de uso "Ingresar Dinero" en el orden correcto (de arriba hacia abajo).</p>
+            </div>
+            
+            <div class="exercise-content" id="exercise-4">
+                <div class="drag-drop-container">
+                    <div class="drag-items">
+                        <h3>Pasos disponibles:</h3>
+                        <div class="drag-item" draggable="true" data-value="1">USUARIO: Selecciona la Opción "Ingresar Dinero"</div>
+                        <div class="drag-item" draggable="true" data-value="2">SISTEMA: Pide la cantidad a Ingresar</div>
+                        <div class="drag-item" draggable="true" data-value="3">USUARIO: Introduce Importe a Ingresar</div>
+                        <div class="drag-item" draggable="true" data-value="4">SISTEMA: Abre cajón del depósito de Dinero</div>
+                        <div class="drag-item" draggable="true" data-value="5">USUARIO: Introduce Dinero en el cajón</div>
+                        <div class="drag-item" draggable="true" data-value="6">SISTEMA: Cuenta el Dinero y comprueba si coincide el Importe</div>
+                        <div class="drag-item" draggable="true" data-value="7">SISTEMA: Notifica al usuario que el Ingreso se ha Realizado</div>
+                        <div class="drag-item" draggable="true" data-value="8">SISTEMA: Devuelve la tarjeta</div>
+                    </div>
+                    
+                    <div class="drop-zone" id="drop-zone-4">
+                        <h3>Orden correcto (de arriba hacia abajo):</h3>
+                        <div class="drop-area" id="drop-area-4">
+                            <!-- Los elementos se soltarán aquí -->
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" onclick="checkExercise(4)">Verificar Ejercicio</button>
+                
+                <div class="feedback" id="feedback-4"></div>
+            </div>
+        </div>
+        
+        <!-- Ejercicio 5: Transferir Dinero -->
+        <div class="exercise-container">
+            <div class="exercise-header">
+                <h2 class="exercise-title">Ejercicio 5: Transferir Dinero</h2>
+                <div class="exercise-points">1 punto</div>
+            </div>
+            
+            <div class="exercise-instructions">
+                <p>Arrastre los pasos del caso de uso "Transferir Dinero" en el orden correcto (de arriba hacia abajo).</p>
+            </div>
+            
+            <div class="exercise-content" id="exercise-5">
+                <div class="drag-drop-container">
+                    <div class="drag-items">
+                        <h3>Pasos disponibles:</h3>
+                        <div class="drag-item" draggable="true" data-value="1">USUARIO: Selecciona la Operación "Transferencia de Dinero"</div>
+                        <div class="drag-item" draggable="true" data-value="2">SISTEMA: Pide la Cuenta Destino</div>
+                        <div class="drag-item" draggable="true" data-value="3">USUARIO: Introduce la Cuenta Destino</div>
+                        <div class="drag-item" draggable="true" data-value="4">SISTEMA: Pide el Monto a Transferir</div>
+                        <div class="drag-item" draggable="true" data-value="5">USUARIO: Introduce el Importe a Transferir</div>
+                        <div class="drag-item" draggable="true" data-value="6">SISTEMA: Verifica que existe saldo suficiente en la cuenta del cliente</div>
+                        <div class="drag-item" draggable="true" data-value="7">SISTEMA: Realiza la transferencia a la cuenta destino</div>
+                        <div class="drag-item" draggable="true" data-value="8">SISTEMA: Informa al cliente que la operación se ha realizado satisfactoriamente</div>
+                    </div>
+                    
+                    <div class="drop-zone" id="drop-zone-5">
+                        <h3>Orden correcto (de arriba hacia abajo):</h3>
+                        <div class="drop-area" id="drop-area-5">
+                            <!-- Los elementos se soltarán aquí -->
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" onclick="checkExercise(5)">Verificar Ejercicio</button>
+                
+                <div class="feedback" id="feedback-5"></div>
+            </div>
+        </div>
+        
+        <!-- Ejercicio 6: Componentes del Cajero -->
+        <div class="exercise-container">
+            <div class="exercise-header">
+                <h2 class="exercise-title">Ejercicio 6: Componentes del Cajero Inclusivo</h2>
+                <div class="exercise-points">1 punto</div>
+            </div>
+            
+            <div class="exercise-instructions">
+                <p>Arrastre SOLO los componentes de accesibilidad a la zona de destino (de arriba hacia abajo).</p>
+            </div>
+            
+            <div class="exercise-content" id="exercise-6">
+                <div class="drag-drop-container">
+                    <div class="drag-items">
+                        <h3>Componentes disponibles:</h3>
+                        <div class="drag-item" draggable="true" data-value="1">Teclado Braille</div>
+                        <div class="drag-item" draggable="true" data-value="2">Lector de Tarjetas</div>
+                        <div class="drag-item" draggable="true" data-value="3">Dispensador de Dinero</div>
+                        <div class="drag-item" draggable="true" data-value="4">Sensor de Voz Interactivo</div>
+                        <div class="drag-item" draggable="true" data-value="5">Impresora de Tickets</div>
+                        <div class="drag-item" draggable="true" data-value="6">Lector de Huellas Dactilares</div>
+                        <div class="drag-item" draggable="true" data-value="7">Cámara para reconocimiento Biométrico</div>
+                        <div class="drag-item" draggable="true" data-value="8">Recolector de Dinero</div>
+                        <div class="drag-item" draggable="true" data-value="9">Sonido de Navegación Menú</div>
+                        <div class="drag-item" draggable="true" data-value="10">Dispositivo de Visualización</div>
+                    </div>
+                    
+                    <div class="drop-zone" id="drop-zone-6">
+                        <h3>Componentes de Accesibilidad (de arriba hacia abajo):</h3>
+                        <div class="drop-area" id="drop-area-6">
+                            <!-- Los elementos se soltarán aquí -->
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" onclick="checkExercise(6)">Verificar Ejercicio</button>
+                
+                <div class="feedback" id="feedback-6"></div>
+            </div>
+        </div>
+        
+        <!-- Ejercicios adicionales para completar los 10 -->
+        <div class="exercise-container">
+            <div class="exercise-header">
+                <h2 class="exercise-title">Ejercicio 7: Requerimientos No Funcionales</h2>
+                <div class="exercise-points">1 punto</div>
+            </div>
+            
+            <div class="exercise-instructions">
+                <p>Arrastre los requerimientos no funcionales más importantes para un cajero inclusivo (de arriba hacia abajo).</p>
+            </div>
+            
+            <div class="exercise-content" id="exercise-7">
+                <div class="drag-drop-container">
+                    <div class="drag-items">
+                        <h3>Requerimientos disponibles:</h3>
+                        <div class="drag-item" draggable="true" data-value="1">Interfaz de fácil uso para usuario discapacitado</div>
+                        <div class="drag-item" draggable="true" data-value="2">Conexión externa flexible con el sistema central del banco</div>
+                        <div class="drag-item" draggable="true" data-value="3">Expendedor de dinero confiable y eficiente</div>
+                        <div class="drag-item" draggable="true" data-value="4">Entrega de comprobante transaccional</div>
+                        <div class="drag-item" draggable="true" data-value="5">Sistemas de Seguridad y Alarmas de Protección</div>
+                        <div class="drag-item" draggable="true" data-value="6">Sistemas eléctricos de alimentación con UPS</div>
+                        <div class="drag-item" draggable="true" data-value="7">Sistemas de mantenimiento periódicos de dinero</div>
+                        <div class="drag-item" draggable="true" data-value="8">Instalaciones de fibra óptica para comunicaciones</div>
+                    </div>
+                    
+                    <div class="drop-zone" id="drop-zone-7">
+                        <h3>Requerimientos más importantes (de arriba hacia abajo):</h3>
+                        <div class="drop-area" id="drop-area-7">
+                            <!-- Los elementos se soltarán aquí -->
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" onclick="checkExercise(7)">Verificar Ejercicio</button>
+                
+                <div class="feedback" id="feedback-7"></div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button class="btn btn-primary" id="prev-btn" onclick="prevExercise()" disabled>Anterior</button>
+            <button class="btn btn-primary" id="next-btn" onclick="nextExercise()">Siguiente</button>
+            <button class="btn btn-success" id="finish-btn" onclick="finishExam()" style="display:none;">Finalizar Examen</button>
+        </div>
+        
+        <div class="results-container" id="results-container">
+            <h2>Resultados del Examen</h2>
+            <div class="final-score" id="final-score">0.0/10.0</div>
+            <p id="result-message"></p>
+            
+            <div class="score-breakdown" id="score-breakdown">
+                <!-- Los resultados por ejercicio se generarán dinámicamente -->
+            </div>
+            
+            <div class="results-buttons">
+                <button class="btn btn-primary" onclick="resetExam()">Reiniciar Examen</button>
+                <button class="btn btn-info" onclick="saveResults()">Guardar Resultados</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Variables globales
+        let currentExercise = 1;
+        const totalExercises = 7;
+        const scores = Array(totalExercises).fill(0);
+        const maxScores = Array(totalExercises).fill(1);
+        let startTime = null;
+        let timerInterval = null;
+        let elapsedTime = 0;
+        
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            initNavigation();
+            initDragAndDrop();
+            updateProgress();
+            startTimer();
+        });
+        
+        // Iniciar temporizador
+        function startTimer() {
+            startTime = new Date();
+            timerInterval = setInterval(updateTimer, 1000);
+        }
+        
+        // Actualizar temporizador
+        function updateTimer() {
+            const now = new Date();
+            elapsedTime = Math.floor((now - startTime) / 1000);
+            const minutes = Math.floor(elapsedTime / 60);
+            const seconds = elapsedTime % 60;
+            document.getElementById('timer').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+        
+        // Formatear tiempo en formato legible
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const remainingSeconds = seconds % 60;
+            return `${minutes} minutos y ${remainingSeconds} segundos`;
+        }
+        
+        // Inicializar navegación entre ejercicios
+        function initNavigation() {
+            const navContainer = document.getElementById('exercise-nav');
+            
+            for (let i = 1; i <= totalExercises; i++) {
+                const navBtn = document.createElement('div');
+                navBtn.className = 'nav-btn' + (i === 1 ? ' active' : '');
+                navBtn.textContent = i;
+                navBtn.onclick = () => navigateToExercise(i);
+                navContainer.appendChild(navBtn);
+            }
+        }
+        
+        // Navegar a un ejercicio específico
+        function navigateToExercise(exerciseNum) {
+            // Ocultar todos los ejercicios
+            for (let i = 1; i <= totalExercises; i++) {
+                document.getElementById(`exercise-${i}`).classList.remove('active');
+                document.querySelectorAll('.nav-btn')[i-1].classList.remove('active');
+            }
+            
+            // Mostrar ejercicio seleccionado
+            document.getElementById(`exercise-${exerciseNum}`).classList.add('active');
+            document.querySelectorAll('.nav-btn')[exerciseNum-1].classList.add('active');
+            
+            currentExercise = exerciseNum;
+            updateNavigationButtons();
+        }
+        
+        // Ejercicio anterior
+        function prevExercise() {
+            if (currentExercise > 1) {
+                navigateToExercise(currentExercise - 1);
+            }
+        }
+        
+        // Ejercicio siguiente
+        function nextExercise() {
+            if (currentExercise < totalExercises) {
+                navigateToExercise(currentExercise + 1);
+            } else {
+                document.getElementById('finish-btn').style.display = 'inline-block';
+            }
+        }
+        
+        // Actualizar botones de navegación
+        function updateNavigationButtons() {
+            document.getElementById('prev-btn').disabled = currentExercise === 1;
+            document.getElementById('next-btn').style.display = currentExercise === totalExercises ? 'none' : 'inline-block';
+        }
+        
+        // Inicializar funcionalidad de arrastrar y soltar
+        function initDragAndDrop() {
+            const dragItems = document.querySelectorAll('.drag-item');
+            const dropAreas = document.querySelectorAll('.drop-area');
+            
+            dragItems.forEach(item => {
+                item.addEventListener('dragstart', handleDragStart);
+                item.addEventListener('dragend', handleDragEnd);
+            });
+            
+            dropAreas.forEach(area => {
+                area.addEventListener('dragover', handleDragOver);
+                area.addEventListener('drop', handleDrop);
+                area.addEventListener('dragenter', handleDragEnter);
+                area.addEventListener('dragleave', handleDragLeave);
+            });
+        }
+        
+        // Manejar inicio de arrastre
+        function handleDragStart(e) {
+            e.dataTransfer.setData('text/plain', e.target.dataset.value);
+            e.target.classList.add('dragging');
+            
+            // Establecer efecto de arrastre
+            e.dataTransfer.effectAllowed = 'move';
+        }
+        
+        // Manejar fin de arrastre
+        function handleDragEnd(e) {
+            e.target.classList.remove('dragging');
+        }
+        
+        // Permitir soltar
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+        }
+        
+        // Manejar entrada en zona de soltado
+        function handleDragEnter(e) {
+            e.preventDefault();
+            // Solo resaltar el área de destino, no los elementos individuales
+            if (e.target.classList.contains('drop-area')) {
+                e.target.classList.add('highlight');
+            }
+        }
+        
+        // Manejar salida de zona de soltado
+        function handleDragLeave(e) {
+            // Solo quitar el resaltado del área de destino
+            if (e.target.classList.contains('drop-area')) {
+                e.target.classList.remove('highlight');
+            }
+        }
+        
+        // Manejar soltado
+        function handleDrop(e) {
+            e.preventDefault();
+            
+            // Solo procesar si se soltó en el área de destino
+            if (e.target.classList.contains('drop-area')) {
+                e.target.classList.remove('highlight');
+                
+                const data = e.dataTransfer.getData('text/plain');
+                const dragging = document.querySelector('.dragging');
+                
+                if (dragging) {
+                    // Solo permitir soltar si el elemento no está ya en la zona
+                    if (!Array.from(e.target.children).includes(dragging)) {
+                        e.target.appendChild(dragging);
+                    }
+                }
+            }
+        }
+        
+        // Verificar ejercicio
+        function checkExercise(exerciseNum) {
+            let score = 0;
+            let feedback = '';
+            
+            const dropArea = document.getElementById(`drop-area-${exerciseNum}`);
+            const items = Array.from(dropArea.querySelectorAll('.drag-item'));
+            
+            // Verificar según el ejercicio
+            switch(exerciseNum) {
+                case 1:
+                    // Verificar orden de Validar Usuario
+                    const correctOrder1 = ['1', '2', '3', '4', '5', '6'];
+                    const userOrder1 = items.map(item => item.dataset.value);
+                    
+                    let correctCount1 = 0;
+                    for (let i = 0; i < Math.min(correctOrder1.length, userOrder1.length); i++) {
+                        if (correctOrder1[i] === userOrder1[i]) {
+                            correctCount1++;
+                        }
+                    }
+                    
+                    score = correctCount1 / correctOrder1.length;
+                    feedback = score >= 0.8 ? 
+                        "¡Correcto! El orden de los pasos es el adecuado." :
+                        `Tienes ${correctCount1} de ${correctOrder1.length} pasos en el orden correcto.`;
+                    break;
+                    
+                case 2:
+                    // Verificar orden de Estados del Cajero
+                    const correctOrder2 = ['1', '2', '3', '4', '5', '6', '7', '8'];
+                    const userOrder2 = items.map(item => item.dataset.value);
+                    
+                    let correctCount2 = 0;
+                    for (let i = 0; i < Math.min(correctOrder2.length, userOrder2.length); i++) {
+                        if (correctOrder2[i] === userOrder2[i]) {
+                            correctCount2++;
+                        }
+                    }
+                    
+                    score = correctCount2 / correctOrder2.length;
+                    feedback = score >= 0.8 ? 
+                        "¡Excelente! El flujo de estados es correcto." :
+                        `Tienes ${correctCount2} de ${correctOrder2.length} estados en el orden correcto.`;
+                    break;
+                    
+                case 3:
+                    // Verificar orden de Extraer Dinero
+                    const correctOrder3 = ['1', '2', '3', '4', '5', '6', '7'];
+                    const userOrder3 = items.map(item => item.dataset.value);
+                    
+                    let correctCount3 = 0;
+                    for (let i = 0; i < Math.min(correctOrder3.length, userOrder3.length); i++) {
+                        if (correctOrder3[i] === userOrder3[i]) {
+                            correctCount3++;
+                        }
+                    }
+                    
+                    score = correctCount3 / correctOrder3.length;
+                    feedback = score >= 0.8 ? 
+                        "¡Correcto! El proceso de extracción está bien ordenado." :
+                        `Tienes ${correctCount3} de ${correctOrder3.length} pasos en el orden correcto.`;
+                    break;
+                    
+                case 4:
+                    // Verificar orden de Ingresar Dinero
+                    const correctOrder4 = ['1', '2', '3', '4', '5', '6', '7', '8'];
+                    const userOrder4 = items.map(item => item.dataset.value);
+                    
+                    let correctCount4 = 0;
+                    for (let i = 0; i < Math.min(correctOrder4.length, userOrder4.length); i++) {
+                        if (correctOrder4[i] === userOrder4[i]) {
+                            correctCount4++;
+                        }
+                    }
+                    
+                    score = correctCount4 / correctOrder4.length;
+                    feedback = score >= 0.8 ? 
+                        "¡Correcto! El proceso de ingreso está bien ordenado." :
+                        `Tienes ${correctCount4} de ${correctOrder4.length} pasos en el orden correcto.`;
+                    break;
+                    
+                case 5:
+                    // Verificar orden de Transferir Dinero
+                    const correctOrder5 = ['1', '2', '3', '4', '5', '6', '7', '8'];
+                    const userOrder5 = items.map(item => item.dataset.value);
+                    
+                    let correctCount5 = 0;
+                    for (let i = 0; i < Math.min(correctOrder5.length, userOrder5.length); i++) {
+                        if (correctOrder5[i] === userOrder5[i]) {
+                            correctCount5++;
+                        }
+                    }
+                    
+                    score = correctCount5 / correctOrder5.length;
+                    feedback = score >= 0.8 ? 
+                        "¡Correcto! El proceso de transferencia está bien ordenado." :
+                        `Tienes ${correctCount5} de ${correctOrder5.length} pasos en el orden correcto.`;
+                    break;
+                    
+                case 6:
+                    // Verificar componentes de accesibilidad
+                    const correctItems6 = ['1', '4', '6', '7', '9']; // Teclado Braille, Sensor de Voz, Lector de Huellas, Cámara Biométrica, Sonido de Navegación
+                    const userItems6 = items.map(item => item.dataset.value);
+                    
+                    let correctCount6 = 0;
+                    userItems6.forEach(item => {
+                        if (correctItems6.includes(item)) {
+                            correctCount6++;
+                        }
+                    });
+                    
+                    // Penalizar por elementos incorrectos
+                    let incorrectCount6 = 0;
+                    userItems6.forEach(item => {
+                        if (!correctItems6.includes(item)) {
+                            incorrectCount6++;
+                        }
+                    });
+                    
+                    score = Math.max(0, (correctCount6 - incorrectCount6 * 0.5) / correctItems6.length);
+                    feedback = score >= 0.8 ? 
+                        "¡Correcto! Has identificado los componentes de accesibilidad." :
+                        `Has identificado ${correctCount6} de ${correctItems6.length} componentes de accesibilidad.`;
+                    break;
+                    
+                case 7:
+                    // Verificar requerimientos no funcionales
+                    const correctOrder7 = ['1', '3', '5', '6'];
+                    const userOrder7 = items.map(item => item.dataset.value);
+                    
+                    let correctCount7 = 0;
+                    for (let i = 0; i < Math.min(correctOrder7.length, userOrder7.length); i++) {
+                        if (correctOrder7[i] === userOrder7[i]) {
+                            correctCount7++;
+                        }
+                    }
+                    
+                    score = correctCount7 / correctOrder7.length;
+                    feedback = score >= 0.8 ? 
+                        "¡Correcto! Has identificado los requerimientos más importantes." :
+                        `Tienes ${correctCount7} de ${correctOrder7.length} requerimientos en el orden correcto.`;
+                    break;
+                    
+                default:
+                    // Para ejercicios adicionales
+                    score = 0.5;
+                    feedback = "Ejercicio verificado. En una implementación completa, se evaluaría con mayor precisión.";
+            }
+            
+            // Asegurar que la puntuación esté entre 0 y 1
+            score = Math.max(0, Math.min(1, score));
+            
+            // Actualizar puntuación
+            scores[exerciseNum-1] = score;
+            
+            // Mostrar retroalimentación
+            const feedbackElement = document.getElementById(`feedback-${exerciseNum}`);
+            feedbackElement.textContent = `Puntuación: ${score.toFixed(1)}/${maxScores[exerciseNum-1]}. ${feedback}`;
+            feedbackElement.className = `feedback ${score >= 0.6 ? 'correct' : 'incorrect'}`;
+            feedbackElement.style.display = 'block';
+            
+            // Marcar ejercicio como completado en la navegación
+            document.querySelectorAll('.nav-btn')[exerciseNum-1].classList.add('completed');
+            
+            // Actualizar progreso
+            updateProgress();
+        }
+        
+        // Actualizar barra de progreso y puntuación
+        function updateProgress() {
+            const totalScore = scores.reduce((a, b) => a + b, 0);
+            const completedExercises = scores.filter(score => score > 0).length;
+            const progressPercent = (completedExercises / totalExercises) * 100;
+            
+            document.getElementById('current-score').textContent = totalScore.toFixed(1);
+            document.getElementById('progress-fill').style.width = `${progressPercent}%`;
+            document.getElementById('progress-text').textContent = `${completedExercises}/${totalExercises}`;
+        }
+        
+        // Finalizar examen
+        function finishExam() {
+            // Detener el temporizador
+            clearInterval(timerInterval);
+            
+            // Calcular puntuación final
+            const totalScore = scores.reduce((a, b) => a + b, 0);
+            
+            // Mostrar resultados
+            document.getElementById('final-score').textContent = `${totalScore.toFixed(1)}/10.0`;
+            
+            // Mensaje según puntuación
+            let message = '';
+            if (totalScore >= 9) {
+                message = "¡Excelente! Dominas completamente los conceptos del cajero automático inclusivo.";
+            } else if (totalScore >= 7) {
+                message = "Buen trabajo. Tienes un buen entendimiento de los casos de uso.";
+            } else if (totalScore >= 5) {
+                message = "Aprobado. Revisa los conceptos en los que tuviste dificultades.";
+            } else {
+                message = "Necesitas estudiar más los casos de uso del cajero automático inclusivo.";
+            }
+            
+            document.getElementById('result-message').textContent = message;
+            
+            // Generar desglose de puntuación
+            const breakdown = document.getElementById('score-breakdown');
+            breakdown.innerHTML = '';
+            
+            for (let i = 0; i < totalExercises; i++) {
+                const scoreItem = document.createElement('div');
+                scoreItem.className = 'score-item';
+                scoreItem.innerHTML = `
+                    <span>Ejercicio ${i+1}</span>
+                    <span>${scores[i].toFixed(1)}/${maxScores[i]}</span>
+                `;
+                breakdown.appendChild(scoreItem);
+            }
+            
+            // Mostrar resultados
+            document.getElementById('results-container').style.display = 'block';
+            
+            // Ocultar ejercicios
+            document.querySelectorAll('.exercise-container').forEach(container => {
+                container.style.display = 'none';
+            });
+            
+            document.querySelector('.progress-container').style.display = 'none';
+            document.querySelector('.exercise-navigation').style.display = 'none';
+            document.querySelector('.controls').style.display = 'none';
+        }
+        
+        // Guardar resultados en archivo TXT
+        function saveResults() {
+            const studentName = document.getElementById('student-name').value || "No especificado";
+            const totalScore = scores.reduce((a, b) => a + b, 0).toFixed(1);
+            const currentDate = new Date().toLocaleDateString('es-AR');
+            
+            // Crear contenido del archivo
+            let content = `RESULTADOS DEL EXAMEN - CAJERO AUTOMÁTICO INCLUSIVO\n`;
+            content += `==================================================\n\n`;
+            content += `ESCUELA: EEST N°1 MUNIZ\n`;
+            content += `CURSO: MODELOS Y SISTEMAS - 7° 4°\n`;
+            content += `ALUMNO: ${studentName}\n`;
+            content += `FECHA: ${currentDate}\n`;
+            content += `TIEMPO DE REALIZACIÓN: ${formatTime(elapsedTime)}\n\n`;
+            content += `PUNTAJE FINAL: ${totalScore}/10.0\n\n`;
+            content += `DETALLE POR EJERCICIOS:\n`;
+            content += `-----------------------\n`;
+            
+            for (let i = 0; i < totalExercises; i++) {
+                content += `Ejercicio ${i+1}: ${scores[i].toFixed(1)}/${maxScores[i]}\n`;
+            }
+            
+            content += `\n`;
+            content += `RESPUESTAS DEL ESTUDIANTE:\n`;
+            content += `--------------------------\n`;
+            
+            // Agregar las respuestas del estudiante para cada ejercicio
+            for (let i = 1; i <= totalExercises; i++) {
+                const dropArea = document.getElementById(`drop-area-${i}`);
+                const items = Array.from(dropArea.querySelectorAll('.drag-item'));
+                const userOrder = items.map(item => item.textContent);
+                
+                content += `\nEJERCICIO ${i}:\n`;
+                if (userOrder.length > 0) {
+                    userOrder.forEach((item, index) => {
+                        content += `${index + 1}. ${item}\n`;
+                    });
+                } else {
+                    content += `No completado\n`;
+                }
+            }
+            
+            // Crear y descargar el archivo
+            const blob = new Blob([content], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Examen_Cajero_${studentName.replace(/\s+/g, '_')}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        
+        // Reiniciar examen
+        function resetExam() {
+            // Reiniciar variables
+            scores.fill(0);
+            currentExercise = 1;
+            elapsedTime = 0;
+            
+            // Restablecer interfaz
+            document.getElementById('results-container').style.display = 'none';
+            document.querySelectorAll('.exercise-container').forEach(container => {
+                container.style.display = 'block';
+            });
+            
+            document.querySelector('.progress-container').style.display = 'flex';
+            document.querySelector('.exercise-navigation').style.display = 'flex';
+            document.querySelector('.controls').style.display = 'flex';
+            
+            // Restablecer navegación
+            document.querySelectorAll('.nav-btn').forEach((btn, index) => {
+                btn.classList.remove('active', 'completed');
+                if (index === 0) btn.classList.add('active');
+            });
+            
+            // Restablecer ejercicios
+            navigateToExercise(1);
+            updateProgress();
+            
+            // Limpiar áreas de arrastre
+            document.querySelectorAll('.drop-area').forEach(area => {
+                // Mover todos los elementos de vuelta a su contenedor original
+                const items = Array.from(area.querySelectorAll('.drag-item'));
+                items.forEach(item => {
+                    const exerciseNum = area.id.split('-')[2];
+                    const originalContainer = document.querySelector(`#exercise-${exerciseNum} .drag-items`);
+                    originalContainer.appendChild(item);
+                });
+            });
+            
+            document.querySelectorAll('.feedback').forEach(feedback => {
+                feedback.style.display = 'none';
+            });
+            
+            // Reiniciar temporizador
+            clearInterval(timerInterval);
+            startTimer();
+        }
+    </script>
+</body>
+</html>
